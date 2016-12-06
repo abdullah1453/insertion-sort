@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Insertion Sort</title>
+	</head>
+	<style type="text/css">
+		body {
+			font-family: "arial";
+			color: #aaa;
+			background: #4568DC; /* fallback for old browsers */
+			background: -webkit-linear-gradient(to left, #4568DC , #B06AB3); /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to left, #4568DC , #B06AB3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		}
+
+		button {
+			cursor: pointer;
+		}
+
+		.sandbox {
+			position: relative;
+			max-width: 350px;
+			/*height: 75vh;*/
+			margin: 5vh auto 0;
+			padding: 25px 0;
+			background-color: white;
+			border-radius: 2px;
+			box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
+			transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+		}
+
+		.sandbox:hover {
+			box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.08);
+			border: none;
+		}
+
+		.msg {
+			padding: 0 15px;
+			margin-bottom: 10px;
+		}
+
+		.msg .msg-body {
+			padding: 10px;
+			display: block;
+			margin-bottom: 10px;
+			cursor: pointer;
+			background-color: #FF4D79;
+			color: #fff;
+		}
+
+		.divider {
+			height: 1px;
+			width: 100%;
+			background-color: #dedede;
+			margin: 15px 0 15px;
+		}
+
+		.nodeAngka {
+			display: inline-block;
+			position: relative;
+			padding: 8px 10px;
+			margin-top: 8px;
+			margin-right: 10px;
+			margin-bottom: 5px;
+			font-weight: bold;
+			background-color: #efefef;
+			border-radius: 2px;
+			transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+		}
+
+		.nodeAngka:hover {
+			box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
+		}
+
+		.nodeAngka small {
+			position: absolute;
+			padding: 5px 8px;
+			background-color: #B06AB3;
+			border-radius: 100%;
+			top: -6px;
+			right: -6px;
+			z-index: 999;
+			font-size: 8px;
+			color: #fff;	
+			opacity: .7;
+		}
+
+		.nodeAngka2 {
+			display: inline-block;
+			position: relative;
+			padding: 8px 10px;
+			margin-top: 8px;
+			margin-right: 10px;
+			margin-bottom: 5px;
+			font-weight: bold;
+			background-color: #fff;
+			border-radius: 2px;
+			transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+		}
+
+		.nodeAngka2:hover {
+			box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
+		}
+
+		.nodeAngka2 small {
+			position: absolute;
+			padding: 5px 8px;
+			background-color: #FF4D79;
+			border-radius: 100%;
+			top: -6px;
+			right: -6px;
+			z-index: 999;
+			font-size: 8px;
+			color: #fff;	
+			opacity: .7;
+		}
+
+		.control-box {
+			position: relative;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			padding: 25px 0 0;
+			overflow: hidden;
+		}
+
+		.input-group {
+			position: relative;
+			border-radius: 2px;
+			box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
+			transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+			margin-bottom: 10px;
+			margin-right: 15px;
+			margin-left: 15px;
+		}
+
+		.input-group:hover,
+		.input-group:focus,
+		.input-group:active {
+			box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.08);
+		}
+
+		#angka {
+			width: 80.2%;
+			padding: 0 0 0 10px;
+			line-height: 30px;
+			border: 0;
+			color: #B06AB3;
+		}
+
+		#addBtn {
+			width: 15%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			background-color: transparent;
+			line-height: 30px;
+			color: #B06AB3;
+		}
+
+		.result {
+			background-color: #efefef;
+		}
+
+		.result .step {
+			padding: 10px 15px;
+			color: #B06AB3;
+		}
+
+		.result .card {
+			font-weight: bold;
+			color: #9B9B9B;
+		}
+
+		.result .step:nth-child(even) {
+			background-color: #f6f6f6;
+		}
+
+		.radio-group {
+			position: relative;
+			display: block;
+			float: left;
+			margin-left: 15px;
+			padding: 7px;
+			cursor: pointer;
+			margin-bottom: 2px;
+		}
+
+		.radio-group:hover {
+			box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.08);
+		}
+
+		.radio-group label {
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		.btn-group {
+			float: right;
+			margin-right: 15px;
+		}
+
+		.btn-group .left,
+		.btn-group .right {
+			padding: 1px 15px;
+			margin: 0;
+			border: 0;
+			color: #fff;
+			line-height: 30px;
+			cursor: pointer;
+		}
+
+		.btn-group .left:hover,
+		.btn-group .right:hover {
+			box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.08);
+		}
+
+		.btn-group .left {
+			border-radius: 500px 0 0 500px;
+			background-color: #989696;
+		}
+
+		.btn-group .right {
+			border-radius: 0 500px 500px 0;
+			background-color: #B06AB3;
+		}
+	</style>
+<body>
+	<!-- BEGIN OUTERWRAPPER -->
+	<div class="sandbox">
+		<!-- BEGIN MSG -->
+		<div id="msg" class="msg"></div>
+		<!-- END MSG -->
+
+		<!-- BEGIN INPUT NUM -->
+		<div class="input-group">
+			<form action="#" onsubmit="Action().addNum(event)">
+				<input id="angka" type="text" name="angka" placeholder="Masukan Angka">
+				<button id="addBtn" onclick="Action().addNum()">+</button>
+			</form>
+		</div>
+		<!-- END INPUT NUM -->
+
+		<!-- BEGIN LIST -->
+		<div id="list" class="list"></div>
+		<!-- END LIST -->
+
+		<!-- BEGIN LIST HASIL -->
+		<div id="list2" class="list2"></div>
+		<!-- END LIST HASIL -->
+
+		<!-- BEGIN RESULT -->
+		<div id="hasil" class="result"></div>
+		<!-- END RESULT -->
+
+		<!-- BEGIN CONTROLBOX -->
+		<div class="control-box">
+			<div class="radio-group">
+				<input id="asc" type="radio" name="sort" value="asc" checked="checked">
+				<label for="asc">Asc</label>
+			</div>
+			<div class="radio-group">
+				<input id="dsc" type="radio" name="sort" value="dsc">
+				<label for="dsc">Dsc</label>
+			</div>
+			<div class="btn-group">
+				<button id="resetBtn" onclick="Action().reset()" class="left">Delt</button>
+				<button id="submitBtn" onclick="Action().submit()" class="right">Sort</button>
+			</div>
+		</div>
+		<!-- END CONTROLBOX -->
+	</div>
+	<!-- END OUTERWRAPPER -->
+
+	<script type="text/javascript">
+		'use strict'; //ES versi > 5
+
+		//Declare Almanac
+		var num = [],
+			Angka,
+			max = 10;
+
+		//Declare DOM
+		var angka = document.getElementById('angka'),
+			submit = document.getElementById('submitBtn'),
+			add = document.getElementById('addBtn'),
+			msg = document.getElementById('msg'),
+			list = document.getElementById('list'),
+			list2 = document.getElementById('list2');
+
+		//set init focus
+		angka.focus();
+
+		window.onerror = function(message, url, lineNumber) {  
+		    // code to execute on an error  
+		    return true; // prevents browser error messages  
+		};
+
+		//Action
+		var Action = function() {
+
+			//Type Casting to Int
+			Angka = parseInt(angka.value);
+
+			function generateArray(arr) {
+				var node = '';
+				for (var a in arr) {
+					node += "<span class='nodeAngka'>" + num[a] + "<small>"+a+"</small></span>";
+				}
+				list.innerHTML = "<div style='padding: 10px 15px;margin-bottom:10px;'>"+node+"</div>";
+			}
+
+			function generateNewArray(arr) {
+				var node = '';
+				for (var a in arr) {
+					node += "<span class='nodeAngka2'>" + num[a] + "<small>"+a+"</small></span>";
+				}
+				list2.innerHTML = "<div style='padding: 10px 15px;margin-bottom:10px;background-color:#B06AB3;'>"+node+"</div>";
+			}
+
+			function generateMsg(pesan) {
+				var val = '';
+				val += "<span class='msg-body' onclick='Action().delMsg(this)'>"+pesan+"</span>";
+
+				msg.innerHTML = val;
+			}
+
+			function getSort() {
+				var sort = document.getElementsByName("sort");
+				var val = '';
+				var i = 0;
+
+				while(i < sort.length) {
+					if (sort[i].checked) {
+						val += sort[i].value
+
+						break;
+					}
+
+					i++
+				}
+
+				return val;
+			}
+
+			return {
+				//Action
+				addNum: function(event) {
+					event.preventDefault();
+
+					//Data gk boleh Kosong
+					if (angka.value == "") {
+						generateMsg("tidak boleh mengirim input kosong");
+					}
+
+					//Harus diisi Angka
+					else if (typeof Angka != "number" || isNaN(Angka)) {
+						generateMsg("input harus berupa angka");
+					}
+
+					//data yang diinput gk boleh lebih dari 20 item
+					else if (num.length >= max) {
+						generateMsg("Sudah melewati batas maksimal input")
+					}
+
+					else {
+						num.push(Angka);
+						generateArray(num);
+						angka.value = "";
+						angka.focus();
+						msg.innerHTML = "";
+					}
+				},
+
+				delMsg: function(el) {
+					
+					//delete msg
+					msg.innerHTML = "";
+				},
+
+				reset: function() {
+					num = [];
+					document.getElementById("hasil").innerHTML = "";
+					list.innerHTML = "";
+					list2.innerHTML = "";
+					msg.innerHTML = "";
+				},
+
+				submit: function() {
+					var temp,
+						val = '';
+
+					var sort = getSort();
+
+					/*
+					 	Data di urutkan dengan cara membandingkan index i dengan index sebelumnya.
+					 	dalam hal ini index ke 1 (bukan 0) di bandingkan dengan index ke 0, jika index 1 < dari 0 maka switch,
+					 	jika tidak maka bandingkan index ke 2 dst...
+
+					 	example array [4, 2, 3, 1, 5];
+					 */
+					switch(sort) {
+						case 'asc':
+							generateArray(num);
+							for (var i = 1; i < num.length; i++) {
+								//console.log(num[i]); //initial card
+								val += "<div class='step'><span class='card'>Card = "+num[i]+"</span><br>";
+
+								for (var j = i; j >= 0 && num[j] < num[j - 1]; j--) {
+									temp = num[j]; //3 2
+									num[j] = num[j-1]; //1 1
+									num[j-1] = temp; //3 
+									//console.log(num);
+
+									val += num+"<br>";
+								}
+
+								val += "</div>";
+
+								document.getElementById("hasil").innerHTML = val;
+							}
+							generateNewArray(num);
+						break;
+
+						case 'dsc':
+							generateArray(num);
+							//[4, 2, 3, 1, 5]
+							for (var i = num.length - 2; i >= 0; i--) {
+								//console.log(num[i]); //initial card
+								val += "<div class='step'><span class='card'>Card = "+num[i]+"</span><br>";
+
+								for (var j = i; j < num.length && num[j] < num[j + 1]; j++) {
+									temp = num[j]; //3 2
+									num[j] = num[j + 1]; //1 1
+									num[j + 1] = temp; //3 
+									//console.log(num);
+
+									val += num+"<br>";
+								}
+
+								val += "</div>";
+
+								document.getElementById("hasil").innerHTML = val;
+							}
+							generateNewArray(num);
+						break;
+					}
+				}
+			}
+		}
+	</script>
+</body>
+</html>
